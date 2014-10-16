@@ -32,9 +32,11 @@ RUN \
   curl -s -O https://download.elasticsearch.org/kibana/kibana/kibana-3.1.1.tar.gz && \
   tar xvzf kibana-3.1.1.tar.gz && \
   rm -f kibana-3.1.1.tar.gz && \
-  ln -s /opt/kibana-3.1.1 /opt/kibana
+  ln -s /opt/kibana-3.1.1 /opt/kibana && \
+  echo "daemon off;" >> /etc/nginx/nginx.conf
 
-ADD build/nginx.conf /etc/nginx/sites-available/default
+ADD build/default /etc/nginx/sites-available/default
+ADD build/nginx.conf /etc/nginx/nginx.conf
 ADD build/pfsense.json /opt/kibana/app/dashboards/pfsense.json
 
 RUN mkdir /etc/service/kibana
