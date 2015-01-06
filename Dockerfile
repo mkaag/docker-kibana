@@ -21,18 +21,25 @@ ADD build/policy-rc.d /usr/sbin/policy-rc.d
 # Disable SSH
 RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
 
+# Ensure UTF-8
+RUN locale-gen en_US.UTF-8
+ENV LANG       en_US.UTF-8
+ENV LC_ALL     en_US.UTF-8
+
 CMD ["/sbin/my_init"]
 
 # Kibana Installation
+ENV KIBANA_VERSION 3.1.2
+
 WORKDIR /opt
 RUN \
   add-apt-repository -y ppa:nginx/stable && \
   apt-get update -qqy && \
   apt-get install -qqy nginx && \
-  curl -s -O https://download.elasticsearch.org/kibana/kibana/kibana-3.1.1.tar.gz && \
-  tar xvzf kibana-3.1.1.tar.gz && \
-  rm -f kibana-3.1.1.tar.gz && \
-  ln -s /opt/kibana-3.1.1 /opt/kibana && \
+  curl -s -O https://download.elasticsearch.org/kibana/kibana/kibana-$KIBANA_VERSION.tar.gz && \
+  tar xvzf kibana-$KIBANA_VERSION.tar.gz && \
+  rm -f kibana-$KIBANA_VERSION.tar.gz && \
+  ln -s /opt/kibana-$KIBANA_VERSION /opt/kibana && \
   echo "daemon off;" >> /etc/nginx/nginx.conf
 
 ADD build/default /etc/nginx/sites-available/default
