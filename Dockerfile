@@ -48,7 +48,9 @@ RUN mkdir /etc/service/kibana
 ADD build/kibana.sh /etc/service/kibana/run
 RUN chmod +x /etc/service/kibana/run
 
+VOLUME ["/opt/kibana/app/dashboards"]
 EXPOSE 80
+
 CMD ["/sbin/my_init"]
 # End Installation
 
