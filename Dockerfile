@@ -26,8 +26,6 @@ RUN locale-gen en_US.UTF-8
 ENV LANG       en_US.UTF-8
 ENV LC_ALL     en_US.UTF-8
 
-CMD ["/sbin/my_init"]
-
 # Kibana Installation
 ENV KIBANA_VERSION 3.1.2
 
@@ -51,6 +49,7 @@ ADD build/kibana.sh /etc/service/kibana/run
 RUN chmod +x /etc/service/kibana/run
 
 EXPOSE 80
+CMD ["/sbin/my_init"]
 # End Installation
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
