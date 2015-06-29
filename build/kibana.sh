@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
-set -e
 
-sed -i "s/@ES_HOST@/$ES_PORT_9200_TCP_ADDR/g" /etc/nginx/sites-available/default
-sed -i "s/@ES_PORT@/$ES_PORT_9200_TCP_PORT/g" /etc/nginx/sites-available/default
+set -eo pipefail
 
-echo "Connecting Kibana to ElasticSearch backend on $ES_PORT_9200_TCP_ADDR:$ES_PORT_9200_TCP_PORT..."
-/usr/sbin/nginx -c /etc/nginx/nginx.conf
+CONF_FILE="/opt/kibana/config/kibana.yml"
+ES_URL="http://${ES_PORT_9200_TCP_ADDR}:${ES_PORT_9200_TCP_PORT}"
+
+sed -i "s;^elasticsearch_url:.*;elasticsearch_url: \"${ES_URL}\";" ${CONF_FILE}
+if [ -n "${KIBANA_INDEX}" ]; then
+  echo "setting index!"
+  sed -i 's;^kibana_index:.*;kibana_index: ${KIBANA_INDEX};' ${CONF_FILE}
+fi
+
+unset HOST
+unset PORT
+
+exec /opt/kibana/bin/kibana
