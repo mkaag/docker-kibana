@@ -1,5 +1,7 @@
 ## kibana Dockerfile
 
+[![Docker Hub](https://img.shields.io/badge/docker-mkaag%2Fkibana-008bb8.svg)](https://registry.hub.docker.com/u/mkaag/kibana/)
+
 This repository contains the **Dockerfile** and the configuration files of [Kibana](http://www.elasticsearch.org/overview/kibana/) for [Docker](https://www.docker.com/).
 
 ### Base Docker Image
